@@ -1,7 +1,4 @@
-"""
-CMPS 2200  Recitation 3.
-See recitation-03.pdf for details.
-"""
+
 import time
 
 class BinaryNumber:
@@ -46,7 +43,34 @@ def pad(x,y):
 
 def quadratic_multiply(x, y):
     ### TODO
-    pass
+    xvec = x.binary_vec
+    yvec = y.binary_vec
+
+    pad(xvec, yvec)
+  
+    if x.decimal_val and y.decimal_val <= 1:
+      return x.decimal_val * y.decimal_val
+    else:
+      x_left, x_right = split_number(xvec)
+      y_left, y_right = split_number(xvec)
+
+      left = quadratic_multiply(x_left, y_left)
+
+      mid_left = quadratic_multiply(x_left, y_right)
+
+      mid_right = quadratic_multiply(x_right, y_left)
+      
+      right = quadratic_multiply(x_right, y_right)
+
+      middle = mid_left.decimal_val + mid_right.decimal_val
+
+      left2 = bit_shift(left, len(xvec))
+
+      middle2 = bit_shift(middle, len(xvec))
+
+      sum = left.decimal_val + middle2.decimal_val + right.decimal_val
+
+      return BinaryNumber(sum)
     ###
 
 
